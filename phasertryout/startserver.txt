@@ -1,0 +1,3 @@
+http-server D:\Users\RieglerB\Dev\bernhardriegler.github.io\phasertryout\
+
+see https://www.npmjs.com/package/http-server
