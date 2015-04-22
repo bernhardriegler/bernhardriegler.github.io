@@ -1,6 +1,330 @@
-@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Open Sans'), local('OpenSans'), url(http://themes.googleusercontent.com/static/fonts/opensans/v8/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+/* center content */
+.wrapper {
+    padding: 10px;
+    margin: auto;
+}
+
+.portrait {
+    margin-right: 20px;
+}
+
+section {
+    width: 440px;
+    display: inline-block;
+    padding: 0 20px;
+    vertical-align: top;
+    margin: auto;
+}
+
+.heading {
+    width: 460px;
+}
+
+h1 {
+    font-size: xx-large;
+}
+
+h1,
+h2,
+h3,
+p,
+.contactinfo a {
+    font-family: sans-serif;
+}
+/* add horizontal seperator before heading 2 */
+
+h3 {
+    padding-top: 10px;
+    border-top: 1px solid #000;
+}
+
+h4 {
+    font-family: 'Courier', sans-serif;
+}
+
+.contactinfo {
+    display: inline-block;
+}
+/* progressbar */
+
+.progressbar {
+    width: 100%;
+    max-width: 460px;
+    height: 13px;
+    margin: 0 0 20px 0;
+    padding: 0px;
+    background: #cfcfcf;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #aaa #bbb #fff #bbb;
+    box-shadow: inset 0px 2px 3px #bbb;
+}
+
+.progressbar,
+.progressbar-inner {
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -o-border-radius: 4px;
+}
+
+.progressbar-inner {
+    width: 77%;
+    height: 100%;
+    background: #999;
+    background-size: 18px 18px;
+    background-color: #ac0;
+    background-image: -webkit-linear-gradient(135deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent);
+    background-image: -moz-linear-gradient(135deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent);
+    background-image: -ms-linear-gradient(135deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent);
+    background-image: -o-linear-gradient(135deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent);
+    background-image: linear-gradient(135deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent);
+    box-shadow: inset 0px 2px 8px rgba(255, 255, 255, .5), inset -1px -1px 0px rgba(0, 0, 0, .2);
+}
+/*
+ * Color Options
+ */
+
+.progressbar-inner {
+    background-color: #f2c345;
+}
+
+.percent_10 .progressbar-inner {
+    width: 10%;
+}
+
+.percent_20 .progressbar-inner {
+    width: 20%;
+}
+
+.percent_30 .progressbar-inner {
+    width: 30%;
+}
+
+.percent_40 .progressbar-inner {
+    width: 40%;
+}
+
+.percent_50 .progressbar-inner {
+    width: 50%;
+}
+
+.percent_60 .progressbar-inner {
+    width: 60%;
+}
+
+.percent_70 .progressbar-inner {
+    width: 70%;
+}
+
+.percent_80 .progressbar-inner {
+    width: 80%;
+}
+
+.percent_90 .progressbar-inner {
+    width: 90%;
+}
+
+.percent_100 .progressbar-inner {
+    width: 100%;
+}
+/* Icons */
+
+ul {
+    padding: 0;
+    margin: 0;
+}
+
+li:before,
+li:after,
+li a:before,
+li a:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+}
+
+li {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0.25em;
+}
+
+.location,
+.email,
+.call {
+    padding-left: 28px;
+}
+/* LOCATION
+------------------------------------------------------------------------------ */
+
+.location:before {
+    left: 6px;
+    width: 2px;
+    height: 2px;
+    border: 3px solid #555;
+    border-bottom: 0;
+    margin-top: -9px;
+    background: #fff;
+    -webkit-border-top-left-radius: 8px;
+    -webkit-border-top-right-radius: 8px;
+    -moz-border-radius: 8px 8px 0 0;
+    border-radius: 8px 8px 0 0;
+}
+
+.location:after {
+    left: 6px;
+    border-width: 12px 4px 0;
+    border-style: solid;
+    border-color: #555 transparent;
+    margin-top: -4px;
+}
+
+.location:hover:before,
+.location:focus:before,
+.location:active:before {
+    border-color: #000;
+}
+
+.location:hover:after,
+.location:focus:after,
+.location:active:after {
+    border-color: #000 transparent;
+}
+/* EMAIL
+------------------------------------------------------------------------------ */
+
+.email:before {
+    z-index: 10;
+    left: 6px;
+    width: 12px;
+    height: 12px;
+    border-width: 0 1px 1px 0;
+    border-style: solid;
+    border-color: #fff;
+    margin-top: -13px;
+    background: transparent;
+    /* css3 */
+    
+    -webkit-transform: rotate(39deg) skew(-12deg);
+    -moz-transform: rotate(39deg) skew(-12deg);
+    -ms-transform: rotate(39deg) skew(-12deg);
+    -o-transform: rotate(39deg) skew(-12deg);
+    transform: rotate(39deg) skew(-12deg);
+}
+
+.email a:before {
+    left: 3px;
+    width: 6px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: #555 #555 transparent;
+    margin-top: -7px;
+    background: transparent;
+}
+
+.email a:after {
+    left: 4px;
+    border-width: 0 8px 9px;
+    border-style: solid;
+    border-color: #555 transparent;
+    margin-top: -3px;
+    background: transparent;
+}
+
+.email a:hover:before,
+.email a:focus:before,
+.email a:active:before {
+    border-color: #000 #000 transparent;
+    background: transparent;
+}
+
+.email a:hover:after,
+.email a:focus:after,
+.email a:active:after {
+    border-bottom-color: #000;
+}
+/* CALL
+------------------------------------------------------------------------------ */
+
+.call a:before {
+    left: 5px;
+    width: 4px;
+    height: 8px;
+    border-width: 5px 0 5px 2px;
+    border-style: solid;
+    border-color: #555;
+    background: transparent;
+    margin-top: -10px;
+    /* css3 */
+    
+    -webkit-border-top-left-radius: 3px 5px;
+    -webkit-border-bottom-left-radius: 3px 5px;
+    -moz-border-radius-topleft: 3px 5px;
+    -moz-border-radius-bottomleft: 3px 5px;
+    border-top-left-radius: 3px 5px;
+    border-bottom-left-radius: 3px 5px;
+    -webkit-transform: rotate(-30deg);
+    -moz-transform: rotate(-30deg);
+    -ms-transform: rotate(-30deg);
+    -o-transform: rotate(-30deg);
+    transform: rotate(-30deg);
+}
+/* add to icon */
+
+.call a:hover:after {
+    left: 10px;
+    width: 6px;
+    height: 6px;
+    margin-top: -8px;
+    border: 4px double #555;
+    border-width: 4px 4px 0 0;
+    background: transparent;
+    /* css3 */
+    
+    -webkit-border-radius: 0 15px 0 0;
+    -moz-border-radius: 0 15px 0 0;
+    border-radius: 0 15px 0 0;
+    -webkit-transform: rotate(15deg);
+    -moz-transform: rotate(15deg);
+    -ms-transform: rotate(15deg);
+    -o-transform: rotate(15deg);
+    transform: rotate(15deg);
+}
+
+.call a:hover:before,
+.call a:focus:before,
+.call a:active:before,
+.call a:hover:after,
+.call a:focus:after,
+.call a:active:after {
+    border-color: #000;
+    background: transparent;
+}
+
+@media all and (max-width: 820px) and (min-width: 461px) {
+    section {
+        display: block;
+    }
+}
+
+@media all and (max-width: 460px) {
+    .wrapper {
+        margin: auto;
+        padding: 0;
+    }
+    section {
+        display: block;
+        max-width: 300px;
+        margin: auto;
+        padding: 0;
+    }
+    .portrait {
+        display: block;
+        margin: auto;
+    }
 }
