@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<!--
+TODO 
+Schema.org
+social meta tags
+usable offline
+-->
+<html lang="de">
+    <head>
+        <!--
+        set once by server - setting in header will cause reflow
+            <meta charset="utf-8">
+        -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <!-- max 60 characters -->
+        <title>Testquestions - Learn Easy</title>
+        <!-- max 155 characters -->
+        <meta name="description" content="Test your skill by answering questions. Correct anwers gain points, incorrect answered questions will return.">
+
+        <!-- Schema.org markup for Google+ -->
+        <meta itemprop="name" content="Learn Easy">
+        <meta itemprop="description" content="Test your skill by answering questions. Correct anwers gain points, incorrect answered questions will return.">
+        <!-- Twitter Card data -->
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@ReguHeliz">
+        <meta name="twitter:title" content="Learn Easy">
+        <meta name="twitter:description" content="Test your skill by answering questions. Correct anwers gain points, incorrect answered questions will return.">
+        <meta name="twitter:creator" content="@WKOat">
+        <!-- Open Graph data -->
+        <meta property="og:title" content="Learn Easy">
+        <meta property="og:site_name" content="WKO.at">
+        <meta property="og:url" content="https://media.wko.at/forms/use/WKW-Christkind-faehrt-Bus/christkind-faehrt-Bus.php">
+        <meta property="og:description" content="Test your skill by answering questions. Correct anwers gain points, incorrect answered questions will return.. Organisiert durch die Wirtschaftskammer Wien, Sparte Tourismus-Freizeit und Sparte Transport-Verkehr">
+        <meta property="og:image" content="https://media.wko.at/forms/use/WKW-Christkind-faehrt-Bus/src/header_fb.jpg">
+        <meta property="og:type" content="website">
+        <meta property="og:locale" content="de_DE">
+        <!-- styling -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <img class="img-rounded img-responsive" src="./src/header.jpg" alt="Learn Easy Logo">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <h1>Learn Easy</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <h2>HowTo</h2>
+                    <p>Answer the questions to gain points!</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <!--form id="learneasyform" class="form-horizontal" role="form" method="post" action=""-->
+                        <div class="form-group control-group question-2x2">
+                            <label class="col-sm-2 control-label" for="Vorname">2x2:</label>
+                            <div class="col-sm-8">
+                                <input 
+                                name="2x2" 
+                                data-validation-match-match="4"
+                                data-validation-match-message="Sorry, you provided a wrong answer - try again!"
+                                required
+                                data-validation-required-message="Please fill out this field - hint: the answer is a number ;-)"
+                                type="number"
+                                data-validation-number-message="the answer is a natural number [1,2, ..., n]"
+                                class="form-control"
+                                placeholder="Vorname eingeben">
+                                <p class="help-block">Multiplizieren: zwei mal zwei</p>
+                            </div>
+                        </div>
+                        <div class="form-group control-group question-2x3">
+                            <label class="col-sm-2 control-label" for="Vorname">2x2:</label>
+                            <div class="col-sm-8">
+                                <input 
+                                name="2x3" 
+                                data-validation-match-match="6"
+                                data-validation-match-message="Sorry, you provided a wrong answer - try again!"
+                                required
+                                data-validation-required-message="Please fill out this field - hint: the answer is a number ;-)"
+                                type="number"
+                                data-validation-number-message="the answer is a natural number [1,2, ..., n]"
+                                class="form-control"
+                                placeholder="Vorname eingeben">
+                                <p class="help-block">Multiplizieren: zwei mal drei</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-4 col-sm-3">
+                                <button type="submit" class="btn btn-default btn-lg btn-block">Abschicken</button>
+                            </div>
+                        </div>
+                    <!--/form-->
+                </div>
+            </div>
+        </div>
+    </body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="src/jqBootstrapValidation.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            var $form = $('.learneasyform');
+            $("#learneasyform").find("input, select, textarea").not("[type=submit]").jqBootstrapValidation({
+                    preventSubmit: true,
+                    submitError: function($form, event, errors) {
+                        $('html, body').animate({
+                            scrollTop: $("#learneasyform").offset().top
+                        }, 1000);
+                    },
+                    submitSuccess: function($form, event) {
+                        //alert("OK");
+                        //event.preventDefault();
+                    },
+                    filter: function() {
+                        return $(this).is(":visible");
+                    }
+                });
+        });
+    </script>
+</html>
