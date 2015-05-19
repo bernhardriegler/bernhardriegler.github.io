@@ -2,6 +2,7 @@ CACHE MANIFEST
 # v 1
 # Explicitly cached 'master entries'.
 CACHE:
+learn-easy.html
 src/third-party/bootstrap.min.css
 src/third-party/jquery-2.1.1.min.js
 src/third-party/bootstrap.min.js
