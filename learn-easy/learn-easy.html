@@ -5,7 +5,7 @@ Schema.org
 social meta tags
 usable offline
 -->
-<html lang="de">
+<html lang="de" minfest="cache.manifest">
     <head>
         <!--
         set once by server - setting in header will cause reflow
@@ -36,7 +36,7 @@ usable offline
         <meta property="og:locale" content="de_DE">
         <!-- styling -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="src/third-party/bootstrap.min.css">
     </head>
     <body>
         <div class="container">
@@ -86,7 +86,7 @@ usable offline
                                 <p class="help-block">Multiplizieren: zwei mal drei</p>
                             </div>
                         </div>
-                        <div class="form-group control-group col-xs-12">
+                        <div class="form-group form-actions col-xs-12">
                             <div class="col-sm-offset-4 col-sm-3">
                                 <button type="submit" class="btn btn-default btn-lg btn-block">Submit</button>
                             </div>
@@ -96,9 +96,10 @@ usable offline
             </div>
         </div>
     </body>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="src/third-party/jquery-2.1.1.min.js"></script>
+    <script src="src/third-party/bootstrap.min.js"></script>
     <script src="src/third-party/jqBootstrapValidation.js"></script>
+    <script src="src/custom.js"></script>
     <script type="text/javascript">
         $(function(){
             var $form = $('#learneasyform');
