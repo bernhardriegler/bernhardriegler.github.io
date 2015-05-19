@@ -1,6 +1,17 @@
-CACHE 
+CACHE MANIFEST
 # v 1
+# Explicitly cached 'master entries'.
+CACHE:
 src/third-party/bootstrap.min.css
 src/third-party/jquery-2.1.1.min.js
 src/third-party/bootstrap.min.js
 src/third-party/jqBootstrapValidation.js
+src/custom.js
+
+# Resources that require the user to be online.
+# NETWORK:
+# *
+
+# static.html will be served if main.py is inaccessible
+# FALLBACK:
+# /main.py /static.html
