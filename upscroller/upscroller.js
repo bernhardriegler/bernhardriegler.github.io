@@ -217,10 +217,10 @@ var player = new(function () {
 })();
 
 var nrOfPlatforms = 6,
-    specialPlatformFactor = nrOfPlatforms - 2;
-platforms = [],
-platformWidth = 70,
-platformHeight = 15;
+    specialPlatformFactor = nrOfPlatforms - 2,
+    platforms = [],
+    platformWidth = 70,
+    platformHeight = 15;
 
 var Platform = function (x, y, type) {
     var that = this;
@@ -299,10 +299,10 @@ var checkCollison = function () {
 };
 
 var nrOfCollectables = 1,
-    specialCollectable = nrOfCollectables - 2;
-collectables = [],
-collectableWidth = 20,
-collectableHeight = 20;
+    specialCollectable = nrOfCollectables - 2,
+    collectables = [],
+    collectableWidth = 20,
+    collectableHeight = 20;
 
 var Collectable = function (x, y, type) {
     var that = this;
