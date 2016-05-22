@@ -1,22 +1,22 @@
-var dataCacheName = 'weatherData-v1';
-var cacheName = 'weatherPWA-step-celebrate-1';
+var dataCacheName = 'weatherData-v2';
+var cacheName = 'weatherPWA-step-celebrate-2';
 var filesToCache = [
-  '/weatherwebapp',
-  '/weatherwebapp/index.html',
-  '/weatherwebapp/scripts/app.js',
-  '/weatherwebapp/images/clear.png',
-  '/weatherwebapp/images/cloudy-scattered-showers.png',
-  '/weatherwebapp/images/cloudy.png',
-  '/weatherwebapp/images/fog.png',
-  '/weatherwebapp/images/ic_add_white_24px.svg',
-  '/weatherwebapp/images/ic_refresh_white_24px.svg',
-  '/weatherwebapp/images/partly-cloudy.png',
-  '/weatherwebapp/images/rain.png',
-  '/weatherwebapp/images/scattered-showers.png',
-  '/weatherwebapp/images/sleet.png',
-  '/weatherwebapp/images/snow.png',
-  '/weatherwebapp/images/thunderstorm.png',
-  '/weatherwebapp/images/wind.png'
+  'https://bernhardriegler.github.io/weatherwebapp/',
+  'https://bernhardriegler.github.io/weatherwebapp/index.html',
+  'https://bernhardriegler.github.io/weatherwebapp/scripts/app.js',
+  'https://bernhardriegler.github.io/weatherwebapp/images/clear.png',
+  'https://bernhardriegler.github.io/weatherwebapp/images/cloudy-scattered-showers.png',
+  'https://bernhardriegler.github.io/weatherwebapp/images/cloudy.png',
+  'https://bernhardriegler.github.io/weatherwebapp/images/fog.png',
+  'https://bernhardriegler.github.io/weatherwebapp/images/ic_add_white_24px.svg',
+  'https://bernhardriegler.github.io/weatherwebapp/images/ic_refresh_white_24px.svg',
+  'https://bernhardriegler.github.io/weatherwebapp/images/partly-cloudy.png',
+  'https://bernhardriegler.github.io/weatherwebapp/images/rain.png',
+  'https://bernhardriegler.github.io/weatherwebapp/images/scattered-showers.png',
+  'https://bernhardriegler.github.io/weatherwebapp/images/sleet.png',
+  'https://bernhardriegler.github.io/weatherwebapp/images/snow.png',
+  'https://bernhardriegler.github.io/weatherwebapp/images/thunderstorm.png',
+  'https://bernhardriegler.github.io/weatherwebapp/images/wind.png'
 ];
 
 self.addEventListener('install', function(e) {
