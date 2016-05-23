@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>table-of-contents from headings</title>
+</head>
+
+<body>
+    <!--start testcontent-->
+    <div id="content">
+        <ul id="toc1" style="display: none;">
+            <!-- id: toc (will be visible if more then 1 heading is available) -->
+            <li>
+                <a id="toc_trigger" class="productindextoggle" href="#"><strong>Index of contents</strong></a>
+                <h3 style="display: none;">test for ONM-1966</h3>
+            </li>
+        </ul>
+        <h2 id="heading_Page1_2">h2</h2>
+        <h3 id="heading_h3">h3</h3>
+        <h3 id="heading_h3_a2">h3</h3>
+        <h4 id="heading_h4">h4</h4>
+        <h3 id="heading_h3_a3">h3</h3>
+        <h2 id="heading_h2_a2">h2</h2>
+        <h5 id="heading_h5">h5</h5>
+        <h5 id="heading_h5_a3">h5</h5>
+        <h6 id="heading_h6">h6</h6>
+        <p>
+            <br/>
+        </p>
+        <p>etwas mehr herausforderung für die struktur</p>
+        <h2 id="heading_h2">h2</h2>
+        <h4 id="heading_h4_3">h4</h4>
+        <h3 id="heading_h3_3">h3</h3>
+        <h4 id="heading_h4_2">h4</h4>
+        <h2 id="heading_h2_3">h2</h2>
+        <h5 id="heading_h5_2">h5</h5>
+        <h2 id="heading_h2_2">h2</h2>
+        <h6 id="heading_h6_2">h6</h6>
+        <p>
+            <br/>
+        </p>
+        <h2 id="heading_Page1_4"><br/></h2>
+        <h2 id="heading_Page1_5">Page1</h2>
+        <p>this is the first page</p>
+
+    </div>
+
+    <!--/end  testcontent-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+    <script src="src/toc.js"></script>
+</body>
+
+</html>
