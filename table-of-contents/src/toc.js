@@ -38,7 +38,7 @@ var getTocMarkup = function() {
             }
         }
         // insert link in wrapping
-        tocMarkup += "<a <a class='page-link' href='#" + current.attr('id') + "'>" + current.text() + "</a>";
+        tocMarkup += "<a class='page-link' href='#" + current.attr('id') + "'>" + current.text() + "</a>";
     }
     // close up
     tocMarkup += closeTocUpByLevel(level, true);
