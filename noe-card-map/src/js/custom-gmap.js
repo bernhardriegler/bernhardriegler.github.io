@@ -138,12 +138,17 @@ var getGeolocation = function () {
         navigator.geolocation.getCurrentPosition(function (position) {
             console.log('thx for sharing your location at: ', position.coords.latitude, position.coords.longitude);
             location = {lat: position.coords.latitude, long: position.coords.longitude};
+            showGeoSuccess();
         });
     } else {
         // no geolocation avaliable
         location = false;
     }
     return location;
+};
+
+var showGeoSuccess = function () {
+    $('h1').parent().prepend('<div class="alert alert-success fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Hab dich!</strong> Geolocation ermittelt!</div>');
 };
 
 var sortByGeolocationDistance = function (arr, currentLatitude, currentLongitude) {
