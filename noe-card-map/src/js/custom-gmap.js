@@ -109,7 +109,7 @@ var printDataTitle = function (data) {
     var listString = '';
     // concat all output
     for (var i = 0; i < data.length; i++) {
-        listString += '<li class="list-group-item"><a href="'+ ROOT_URL + data[i].url + '" target="_blank">' + data[i].title + '</a></li>';
+        listString += '<li class="list-group-item"><a href="'+ ROOT_URL + data[i].url + '" target="_blank">' + data[i].title + '</a> (' + Math.round(data[i].distance * 100) / 100 + ' km)</li>';
     }
     // write to document
     $('#project-list').html(listString);
@@ -151,12 +151,17 @@ var showGeoSuccess = function () {
     $('h1').parent().prepend('<div class="alert alert-success fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Hab dich!</strong> Geolocation ermittelt!</div>');
 };
 
+var showGeoFail = function () {
+    $('h1').parent().prepend('<div class="alert alert-fail fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>:-( Geolocation konnte nicht bestimmt werden - Wiener Neustadt wird als Ausgangspunkt gewählt</div>');
+};
+
 var sortByGeolocationDistance = function (arr, currentLatitude, currentLongitude) {
     var sortedData = [];
         for (var i = 0; i < arr.length; i++) {
-            // TODO check for negative
+            // (arr[i].latLng.latitude - currentLatitude) + (arr[i].latLng.longitude - currentLongitude);
             // get the distance to current location
-            arr[i].distance = (arr[i].latLng.latitude - currentLatitude) + (arr[i].latLng.longitude - currentLongitude);
+            arr[i].distance = distance(arr[i].latLng.latitude, arr[i].latLng.longitude, currentLatitude, currentLongitude);
+
             // sort by comparing to elements allready in the array
             // start with the first one by just adding it
             // if distance is higher or equal add to back of array
@@ -164,13 +169,26 @@ var sortByGeolocationDistance = function (arr, currentLatitude, currentLongitude
                 sortedData.push(arr[i]);
             } else {
                 // if the distance is smaller check the next smaller element
-                for (var j = sortedData.length - 1; j > 0 && arr[i].distance < sortedData[j].distance; j--) {
-                    sortedData.splice(j, 0, arr[i]);
-                    break;
+                for (var j = sortedData.length - 1; j >= 0 && (arr[i].distance < sortedData[j].distance); j--) {
+                    if (j === 0 || arr[i].distance > sortedData[j - 1].distance) {
+                        sortedData.splice(j, 0, arr[i]);
+                        break;
+                    }
                 }
             }
         }
     return sortedData;
+};
+
+// https://en.wikipedia.org/wiki/Haversine_formula
+var distance = function (lat1, lon1, lat2, lon2) {
+  var p = 0.017453292519943295;    // Math.PI / 180
+  var c = Math.cos;
+  var a = 0.5 - c((lat2 - lat1) * p)/2 +
+          c(lat1 * p) * c(lat2 * p) *
+          (1 - c((lon2 - lon1) * p))/2;
+
+  return 12742 * Math.asin(Math.sqrt(a)); // 2 * R; R = 6371 km
 };
 
 google.maps.event.addDomListener(window, 'load', gMapInitialize);
