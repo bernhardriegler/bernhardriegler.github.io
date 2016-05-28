@@ -23,7 +23,7 @@ var gMapInitialize = function () {
     });
     $.getJSON("map-src/noe-card-data.json")
         .done(function(dataClustered, textStatus) {
-            console.log(textStatus);
+            // console.log(textStatus);
             $.each(dataClustered, function (index) {
                 // todo find 4 missing pois ... 324 expected 320 returned
                 $.each(dataClustered[index].pois, function (jndex) {
@@ -33,10 +33,9 @@ var gMapInitialize = function () {
             var sortedData = sortByGeolocationDistance(data, location.lat, location.long);
             setMarkers(sortedData);
             printDataTitle(sortedData);
-            console.log(data.length);
         })
         .fail(function(jqxhr, settings, exception) {
-            console.log(exception);
+            // console.log(exception);
         });
 
     // Bind event listener on button to reload markers
@@ -133,16 +132,19 @@ var filterByFilterString = function (arr, filterString) {
 
 // geolocation
 var getGeolocation = function () {
-    var location;
+    var location = false;
     if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition(function (position) {
             console.log('thx for sharing your location at: ', position.coords.latitude, position.coords.longitude);
             location = {lat: position.coords.latitude, long: position.coords.longitude};
             showGeoSuccess();
+        }, function (error) {
+            console.log(error.PERMISSION_DENIED);
+            showGeoFail();
         });
     } else {
         // no geolocation avaliable
-        location = false;
+        showGeoFail();
     }
     return location;
 };
@@ -152,7 +154,7 @@ var showGeoSuccess = function () {
 };
 
 var showGeoFail = function () {
-    $('h1').parent().prepend('<div class="alert alert-fail fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>:-( Geolocation konnte nicht bestimmt werden - Wiener Neustadt wird als Ausgangspunkt gewählt</div>');
+    $('h1').parent().prepend('<div class="alert alert-warning fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>:-( Geolocation konnte nicht bestimmt werden - Wiener Neustadt wird als Ausgangspunkt gewählt</div>');
 };
 
 var sortByGeolocationDistance = function (arr, currentLatitude, currentLongitude) {
