@@ -70,11 +70,15 @@ var setMarkers = function (locations) {
             var contentString = '<div id="content">'+
             '<div id="siteNotice">'+
             '</div>'+
-            '<h1 id="firstHeading" class="firstHeading">' + location.title + '</h1>'+
-            '<div id="bodyContent">'+
-            '<img src="' + location.images[0].url + '" alt="Image: ' + location.images[0].description + '" width="270">'+
-            '<p>by ' + location.images[0].copyright + '</p>'+
-            '<p><a href="' + ROOT_URL + location.url + '" target="_blank">mehr Infos</a></p>'+
+            '<h3 id="firstHeading" class="firstHeading">' + location.title + '</h3>'+
+            '<div id="bodyContent">';
+            if (location.images[0].url !== "") {
+                contentString += '<a href="' + ROOT_URL + location.url + '" target="_blank"><img src="' + location.images[0].url + '" alt="Image: ' + location.images[0].description + '" width="270"></a>';
+            }
+            if (location.images[0].copyright !== "") {
+                contentString += '<p>by ' + location.images[0].copyright + '</p>';
+            }
+            contentString += '<p><a class="btn btn-primary" role="button" href="' + ROOT_URL + location.url + '" target="_blank"><span class="glyphicon glyphicon-hand-right"></span> mehr Infos</a>'+
             '</div>'+
             '</div>';
             var marker = new google.maps.Marker({
