@@ -55,8 +55,16 @@ var gMapInitialize = function () {
 // setup infowindow on click on marker
 var bindInfoWindow = function (marker, map, infowindow, description) {
     marker.addListener('click', function() {
-        infowindow.setContent(description);
-        infowindow.open(map, this);
+        // infowindow.setContent(description);
+        // infowindow.open(map, this);
+        // update content and open modal
+        $('#poiModal').modal('show');
+        // title
+        $('#poiModal .modal-title').html(this.title);
+        // descrtion to body
+        $('#poiModal .modal-body').html(description);
+        // route info to button
+        $('#poiModal .modal-route').attr('#' + this.title);
     });
 };
 
@@ -67,11 +75,11 @@ var setMarkers = function (locations) {
         var latLng = new google.maps.LatLng(location.latLng.latitude,
             location.latLng.longitude);
             // todo check if property isset
-            var contentString = '<div id="content">'+
+            var contentString = '<div id="infowindow-content">'+
             '<div id="siteNotice">'+
             '</div>'+
-            '<h3 id="firstHeading" class="firstHeading">' + location.title + '</h3>'+
-            '<div id="bodyContent">';
+            //'<h3 id="firstHeading" class="firstHeading">' + location.title + '</h3>'+
+            '<div id="infowindow-body-content">';
             if (location.images[0].url !== "") {
                 contentString += '<a href="' + ROOT_URL + location.url + '" target="_blank"><img src="' + location.images[0].url + '" alt="Image: ' + location.images[0].description + '" width="270"></a>';
             }

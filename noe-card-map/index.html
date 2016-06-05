@@ -1,36 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <!--[if IE]><meta http-equiv='X-UA-Compatible' content="IE=edge"><![endif]-->
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Niederösterreich Card in der Nähe</title>
-        <meta name="description" content="Spare mit der Niederösterreich Card - Vergünstigungen in der Nähe">
-        <link rel="canonical" href="https://bernhardriegler.github.io/noe-card-map/">
-        <!-- icons -->
-        <link rel="apple-touch-icon" sizes="57x57" href="images/apple-icon-57x57.png">
-        <link rel="apple-touch-icon" sizes="60x60" href="images/apple-icon-60x60.png">
-        <link rel="apple-touch-icon" sizes="72x72" href="images/apple-icon-72x72.png">
-        <link rel="apple-touch-icon" sizes="76x76" href="images/apple-icon-76x76.png">
-        <link rel="apple-touch-icon" sizes="114x114" href="images/apple-icon-114x114.png">
-        <link rel="apple-touch-icon" sizes="120x120" href="images/apple-icon-120x120.png">
-        <link rel="apple-touch-icon" sizes="144x144" href="images/apple-icon-144x144.png">
-        <link rel="apple-touch-icon" sizes="152x152" href="images/apple-icon-152x152.png">
-        <link rel="apple-touch-icon" sizes="180x180" href="images/apple-icon-180x180.png">
-        <link rel="icon" type="image/png" sizes="192x192"  href="images/android-icon-192x192.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="96x96" href="images/favicon-96x96.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
-        <link rel="manifest" href="images/manifest.json">
-        <meta name="msapplication-TileColor" content="#1895DB">
-        <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
-        <meta name="theme-color" content="#1895DB">
-        <meta name="apple-mobile-web-app-title" content="NÖ Card Help">
-        <meta name="application-name" content="NÖ Card Help">
-        <!--link rel="publisher" href="https://plus.google.com/117229603328244352104"-->
-        <!-- sharing -->
-        <!-- facebook -->
-        <!--
+
+<head>
+    <meta charset="utf-8">
+    <!--[if IE]><meta http-equiv='X-UA-Compatible' content="IE=edge"><![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Niederösterreich Card in der Nähe</title>
+    <meta name="description" content="Spare mit der Niederösterreich Card - Vergünstigungen in der Nähe">
+    <link rel="canonical" href="https://bernhardriegler.github.io/noe-card-map/">
+    <!-- icons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="images/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="images/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="images/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="images/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="images/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="images/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="images/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="images/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+    <link rel="manifest" href="images/manifest.json">
+    <meta name="msapplication-TileColor" content="#1895DB">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#1895DB">
+    <meta name="apple-mobile-web-app-title" content="NÖ Card Help">
+    <meta name="application-name" content="NÖ Card Help">
+    <!--link rel="publisher" href="https://plus.google.com/117229603328244352104"-->
+    <!-- sharing -->
+    <!-- facebook -->
+    <!--
         <meta property="og:url" content="https://bernhardriegler.github.io/noe-card-map/">
         <meta property="og:type" content="website">
         <meta property="og:title" content="Pagename - Interreg CENTRAL EUROPE">
@@ -41,23 +42,54 @@
         <meta property="og:image:width" content="1200">
         <meta property="og:image:height" content="630">
         -->
-        <!-- twitter -->
-        <!--
+    <!-- twitter -->
+    <!--
         <meta name="twitter:card" content="summary">
         <meta name="twitter:site" content="@interregeurope">
         <meta name="twitter:url" content="https://bernhardriegler.github.io/noe-card-map/">
         -->
-        <!-- Bootstrap -->
-        <link href="src/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="src/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .collection-count {
+            position: absolute;
+            left: 23px;
+            top: 16px;
+        }
 
-        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]> <script src="src/interreg-central-eu/js/html5shiv.min.js"></script> <script src="src/interreg-central-eu/js/respond.min.js"></script> <![endif]-->
-    </head>
-    <body>
-        <nav class="navbar navbar-inverse navbar-default">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <!--
+        .collection-image-container-md .collection-count {
+            left: 20px;
+            top: 18px;
+        }
+
+        .collection-image-container-lg .collection-count {
+            left: 26px;
+            top: 23px;
+        }
+
+        .collection-image-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        h1 {
+            font-size: 28px;
+        }
+
+        h2 {
+            font-size: 22px;
+        }
+    </style>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]> <script src="src/interreg-central-eu/js/html5shiv.min.js"></script> <script src="src/interreg-central-eu/js/respond.min.js"></script> <![endif]-->
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <!--
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
@@ -65,9 +97,9 @@
                         <span class="icon-bar"></span>
                     </button>
                     -->
-                    <a class="navbar-brand" href="#">NÖ Card helper</a>
-                </div>
-                <!--
+                <a class="navbar-brand" href="#">NÖ Card helper</a>
+            </div>
+            <!--
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li class="active">
@@ -112,14 +144,14 @@
                     </form>
                 </div>
                 -->
-                <!--/.nav-collapse -->
-            </div>
-            <!--/.container-fluid -->
-        </nav>
+            <!--/.nav-collapse -->
+        </div>
+        <!--/.container-fluid -->
+    </nav>
 
-        <div class="container">
-            <!-- Example gmap -->
-            <!--
+    <div class="container">
+        <!-- Example gmap -->
+        <!--
             <div class="row">
                 <div class="col-md-12">
                     <h2>Google map with filters</h2>
@@ -135,42 +167,73 @@
                 </div>
             </div>
             -->
-            <div class="row">
-                <div class="col-md-12">
-                    <h1>Niederösterreich Card Ziele in deiner Nähe</h1>
-                    <p>Nach Distanz sortiert</p>
-                    <p><a href="http://www.niederoesterreich-card.at/alle-ausflugsziele">Alle Ausflugsziele auf niederoesterreich-card.at</a></p>
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Niederösterreich Card Ziele in deiner Nähe</h1>
+                <p>Auf der Karte findest du die Ausflugsziele.</p>
+                <p>Klicke auf die Markierungen um mehr über das Ausflugsziel zu erfahren.</p>
+                <img src="images/pin.png" alt="Beispiel für kleine Gruppe">
+                <p>Ziele die nahe beisammenliegen sind zu Gruppen zusammengesfasst. Die Zahl in der Gruppe zeigt an wieviele Markierungen sich dahinter verbergen.</p>
+                <div class="collection-image-container">
+                    <img src="images/m1.png" alt="Beispiel für kleine Gruppe"><span class="collection-count">5</span>
+                </div>
+                <div class="collection-image-container collection-image-container-md">
+                    <img src="images/m2.png" alt="Beispiel für mittlere Gruppe"><span class="collection-count">10</span>
+                </div>
+                <div class="collection-image-container collection-image-container-lg">
+                    <img src="images/m3.png" alt="Beispiel für große Gruppe"><span class="collection-count">15</span>
                 </div>
             </div>
-            <div class="row">
-                <style scoped>
-                    #gmap {
-                        width: 100%;
-                        height: 400px;
-                    }
-                </style>
-                <div id="gmap"></div>
-            </div>
-            <section class="row">
-                <div  class="col-md-12">
-                    <h2>Niederösterreich Card Ziele aufgelistet</h2>
-                    <ul id="project-list" class="list-group">
-                        <li>nothing found :-(</li>
-                    </ul>
-                </div>
-            </section>
         </div>
-        <hr>
-        <footer>
-            <p class="text-center">happy nö card adventures!</p>
-        </footer>
-        <!-- /container -->
+        <div class="row">
+            <style scoped>
+                #gmap {
+                    width: 100%;
+                    height: 400px;
+                }
+            </style>
+            <!-- Modal -->
+            <div class="modal fade" id="poiModal" tabindex="-1" role="dialog" aria-labelledby="poiModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                        </div>
+                        <div class="modal-body">
+                            ...
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <a href="#" target="_blank" class="btn btn-primary modal-route">Route anzeigen</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="gmap"></div>
+            <p><a class="btn btn-primary" href="http://www.niederoesterreich-card.at/alle-ausflugsziele">Alle Ausflugsziele auf niederoesterreich-card.at</a></p>
+        </div>
+        <section class="row">
+            <div class="col-md-12">
+                <h2>Niederösterreich Card Ziele aufgelistet nach Distanz</h2>
+                <ul id="project-list" class="list-group">
+                    <li>nothing found :-(</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+    <hr>
+    <footer>
+        <p class="text-center">happy nö card adventures!</p>
+    </footer>
+    <!-- /container -->
 
-        <script src="src/js/jquery.min.js"></script>
-        <script src="src/js/bootstrap.min.js"></script>
-        <!--gmap scripts-->
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJtsba6MUZ03GXL7rhiTs6y34oko9cQpQ"></script>
-        <script src="map-src/markerclusterer_compiled.js"></script>
-        <script src="src/js/custom-gmap.js"></script>
-    </body>
+    <script src="src/js/jquery.min.js"></script>
+    <script src="src/js/bootstrap.min.js"></script>
+    <!--gmap scripts-->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJtsba6MUZ03GXL7rhiTs6y34oko9cQpQ"></script>
+    <script src="map-src/markerclusterer_compiled.js"></script>
+    <script src="src/js/custom-gmap.js"></script>
+</body>
+
 </html>
