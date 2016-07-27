@@ -23,7 +23,7 @@
                 // reset level
                 level = 1;
                 // restart a list
-                tocMarkup += "<ul class='pageheading'><li>";
+                tocMarkup += "<li class='tree_trigger tree_closed'><span class='expand_button'></span>";
             } else {
                 var prev = $(headings[i - 1]);
                 // if current element === prev element
@@ -43,7 +43,7 @@
                 }
             }
             // insert link in wrapping
-            tocMarkup += "<a class='page-link' href='#" + current.attr('id') + "'>" + current.text() + "</a>";
+            tocMarkup += "<a class='page-link' href='#" + current.attr('id') + "'>" + (current.text() === "" ? "" :  current.text()) + "</a>";
         }
         // close up
         tocMarkup += closeTocUpByLevel(level, true);
@@ -67,7 +67,7 @@
     $(tabeOfContentsMarkup).find('.page-heading > li > ul').hide();
     // show the toc container
     // fill the first li - main heading - with the generated markup
-    $('#toc').show().find('li').append(getTocMarkup());
+    $('#toc').show().find('li:first').append(getTocMarkup());
 
     // "close" the toc for subpages, so only page-headings (h2) are shown initialy
     $('#toc .page-heading > li > a').on('click', function (event) {
