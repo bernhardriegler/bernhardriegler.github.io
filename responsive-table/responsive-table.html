@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex">
+    <link rel="canonical" href="http://codepen.io/anon/pen/ORdANb" />
+    <title>responsive table</title>
+
+
+    <style class="cp-pen-styles">
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        td,
+        th {
+            border: 1px solid lightgrey;
+            padding: 4px 8px;
+        }
+
+        @media screen and (max-width: 640px) {
+            table {
+                overflow-x: auto;
+                display: block;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <p>this is some long text. this is some long text. this is some long text. this is some long text. this is some long text. this is some long text. </p>
+    <table>
+        <tr>
+            <td>Column 1</td>
+            <td>Column 2</td>
+            <td>Column 3</td>
+            <td>Column 4</td>
+            <td>Column 5</td>
+        </tr>
+    </table>
+    <p>this is some long text. this is some long text. this is some long text. this is some long text. this is some long text. this is some long text. </p>
+</body>
+
+</html>
