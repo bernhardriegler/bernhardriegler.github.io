@@ -10,11 +10,15 @@
 
 
     <style class="cp-pen-styles">
-        table {
-            border-collapse: collapse;
-            border-spacing: 0;
+        .blocky-table {
             overflow-x: auto;
             display: inline-block;
+            width: 100%;
+        }
+        .responsive-table {
+            overflow: auto;
+        }
+        .responsive-table > table {
             width: 100%;
         }
 
@@ -23,12 +27,19 @@
             border: 1px solid lightgrey;
             padding: 4px 8px;
         }
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
     </style>
 </head>
 
 <body>
-    <p>this is some long text. this is some long text. this is some long text. this is some long text. this is some long text. this is some long text. </p>
-    <table>
+    <h1>responsive table styling</h1>
+    <h2>without wrapping element</h2>
+    <p>horizontal scroll on small viewwidth without wrapping element ... does not stretch to 100% width</p>
+    <table class="blocky-table">
         <tr>
             <td>Column 1</td>
             <td>Column 2</td>
@@ -39,6 +50,21 @@
             <td>Column 7</td>
         </tr>
     </table>
+    <h2>with wrapping element</h2>
+    <p>horizontal scroll on small viewwidth with wrapping element ... does stretch to 100% width</p>
+    <div class="responsive-table">
+        <table>
+            <tr>
+                <td>Column 1</td>
+                <td>Column 2</td>
+                <td>Column 3</td>
+                <td>Column 4</td>
+                <td>Column 5</td>
+                <td>Column 6</td>
+                <td>Column 7</td>
+            </tr>
+        </table>
+    </div>
     <p>this is some long text. this is some long text. this is some long text. this is some long text. this is some long text. this is some long text. </p>
 </body>
 
