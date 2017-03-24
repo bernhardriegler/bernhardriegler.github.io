@@ -57,9 +57,9 @@
             });
 
           // Determina if all options are checked or not
-          $scope.allOptions = selectedOptions.length === $scope.tourOptions.length;  
+          $scope.allOptions = selectedOptions.length === $scope.tourOptions.length;
 
-          // If there are options checked, determine what their price is and add it to the total 
+          // If there are options checked, determine what their price is and add it to the total
           if (selectedOptions.length) {
             var optionTotal = selectedOptions.map(function(option) {
               return option.price;
@@ -96,7 +96,7 @@
           }
         });
       });
-      
+
 
       /* ============================================================
        * Angular Directive(s)
@@ -943,11 +943,3 @@
   })
 
 }(window.jQuery);
-
-
-
-
-
-
-
-
