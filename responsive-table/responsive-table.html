@@ -10,15 +10,14 @@
 
 
     <style class="cp-pen-styles">
-        .blocky-table {
+        .table-blocky {
             overflow-x: auto;
             display: inline-block;
-            width: 100%;
         }
-        .responsive-table {
+        .table-responsive {
             overflow: auto;
         }
-        .responsive-table > table {
+        .table-responsive > table {
             width: 100%;
         }
 
@@ -30,6 +29,7 @@
         table {
             border-collapse: collapse;
             border-spacing: 0;
+            width: 100%;
         }
 
     </style>
@@ -39,7 +39,7 @@
     <h1>responsive table styling</h1>
     <h2>without wrapping element</h2>
     <p>horizontal scroll on small viewwidth without wrapping element ... does not stretch to 100% width</p>
-    <table class="blocky-table">
+    <table class="table-blocky">
         <tr>
             <td>Column 1</td>
             <td>Column 2</td>
@@ -52,7 +52,7 @@
     </table>
     <h2>with wrapping element</h2>
     <p>horizontal scroll on small viewwidth with wrapping element ... does stretch to 100% width</p>
-    <div class="responsive-table">
+    <div class="table-responsive">
         <table>
             <tr>
                 <td>Column 1</td>
@@ -65,7 +65,6 @@
             </tr>
         </table>
     </div>
-    <p>this is some long text. this is some long text. this is some long text. this is some long text. this is some long text. this is some long text. </p>
 </body>
 
 </html>
