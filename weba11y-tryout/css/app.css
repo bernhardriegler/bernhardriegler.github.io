@@ -1,0 +1,17 @@
+.container-narrow {
+  margin: 0 auto;
+  max-width: 700px;
+}
+
+ul.nav {
+  margin-bottom: 0;
+}
+
+.form-destination {
+  margin-left: 20px;
+}
+
+#ad-banner img {
+  height: 60px;
+  width: 468px;
+}
