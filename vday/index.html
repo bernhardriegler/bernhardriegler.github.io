@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- 
+    https://www.popandshorty.com/collections/all-the-goodies/products/you-are-the-css-to-my-html 
+    https://codepen.io/AllThingsSmitty/pen/pNLVWm
+-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>V-Day</title>
+    <style>
+        .card,
+        .envelope {
+            background: #fff;
+            box-shadow: 0 8px 3px -1px rgba(0, 0, 0, .7);
+            height: 21em;
+            padding: 2em;
+            position: relative;
+            width: 15em;
+        }
+
+        .envelope {
+            background: #cb231c;
+            box-shadow: 0 3px 2px rgba(0, 0, 0, .8);
+            margin: -2em -2em;
+            position: absolute;
+            transform: rotate(-8deg);
+            z-index: -1;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin: 0;
+            text-transform: uppercase;
+            width: 90%;
+        }
+
+        em {
+            color: #cc2119;
+            font-style: normal;
+        }
+
+        .heart {
+            bottom: 4em;
+            position: absolute;
+            right: 4em;
+        }
+
+        .heart::before,
+        .heart::after {
+            background-color: #cd231b;
+            border-radius: 50px 50px 0 0;
+            content: "";
+            height: 25px;
+            left: 15px;
+            position: absolute;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+            width: 15px;
+        }
+
+        .heart::after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+
+        body {
+            background-color: #eee;
+            font: 16px/1.05 "Montserrat", sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="card">
+            <div class="envelope"></div>
+            <h1>You are the
+                <em>CSS</em> to my
+                <em>HTML</em>
+            </h1>
+            <div class="heart"></div>
+        </div>
+
+    </div>
+</body>
+
+</html>
