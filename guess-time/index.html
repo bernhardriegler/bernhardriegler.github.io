@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        #myButton {
+            padding: 10px 20px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <button id="myButton">Click me</button>
+    <p id="timeDifference"></p>
+
+    <script>
+        const myButton = document.getElementById('myButton');
+        const timeDifference = document.getElementById('timeDifference');
+        let startTime;
+        let randomTime;
+
+        myButton.addEventListener('click', function() {
+            let currentTime = new Date();
+            if (startTime) {
+                let elapsedTime = (currentTime - startTime) / 1000;
+                // using abs() to get the absolute value because the order of the subtraction matters (e.g. 5 - 3 = 2 and 3 - 5 = -2)
+                // and we always want to display a positive number
+                let marginOfError = Math.abs(elapsedTime - randomTime);
+                timeDifference.textContent = "Margin of error: " + marginOfError.toFixed(0) + " seconds";
+            }
+            // generate a random time between 1 and 100 seconds
+            randomTime = Math.floor(Math.random() * 100) + 1;
+            myButton.textContent = "I guess " + randomTime + " seconds have passed";
+            startTime = new Date();
+        });
+    </script>
+</body>
+</html>
