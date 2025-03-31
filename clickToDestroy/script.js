@@ -13,18 +13,31 @@ const render = Render.create({
         width: window.innerWidth,
         height: window.innerHeight,
         wireframes: false,
-        background: '#f0f0f0'
+        background: 'transparent' // Make the canvas background transparent
     }
 });
 
+// Adjust canvas styling to overlay the document
+render.canvas.style.position = 'absolute';
+render.canvas.style.top = '0';
+render.canvas.style.left = '0';
+render.canvas.style.pointerEvents = 'none'; // Allow clicks to pass through
 Render.run(render);
 Runner.run(Runner.create(), engine);
 
-// Add ground
+// Add ground and walls
 const ground = Bodies.rectangle(window.innerWidth / 2, window.innerHeight + 50, window.innerWidth, 100, {
     isStatic: true
 });
-World.add(world, ground);
+const leftWall = Bodies.rectangle(-50, window.innerHeight / 2, 100, window.innerHeight, {
+    isStatic: true
+});
+const rightWall = Bodies.rectangle(window.innerWidth + 50, window.innerHeight / 2, 100, window.innerHeight, {
+    isStatic: true
+});
+
+// Add the ground and walls to the world
+World.add(world, [ground, leftWall, rightWall]);
 
 // Add mouse control
 const mouse = Mouse.create(render.canvas);
@@ -60,6 +73,13 @@ document.querySelectorAll('a, button').forEach(element => {
                 }
             }
         });
+
+        // Add random velocity and angular velocity
+        const randomX = (Math.random() - 0.5) * 10; // Random horizontal velocity
+        const randomY = -Math.random() * 10; // Random upward velocity
+        const randomAngular = (Math.random() - 0.5) * 0.1; // Random spin
+        Matter.Body.setVelocity(body, { x: randomX, y: randomY });
+        Matter.Body.setAngularVelocity(body, randomAngular);
 
         // Add the body to the world
         World.add(world, body);

@@ -1,0 +1,8 @@
+body {
+    margin: 0; /* Remove default margin to prevent scrollbars */
+    overflow: hidden; /* Prevent scrollbars from appearing */
+}
+
+canvas {
+    pointer-events: none; /* Allow clicks to pass through to underlying elements */
+}
