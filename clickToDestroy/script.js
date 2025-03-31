@@ -57,34 +57,39 @@ document.querySelectorAll('a, button').forEach(element => {
     element.addEventListener('click', (event) => {
         event.preventDefault();
 
-        // Get the element's position
+        // Get the element's position and dimensions
         const rect = element.getBoundingClientRect();
         const x = rect.left + rect.width / 2;
         const y = rect.top + rect.height / 2;
 
-        // Create a physics body for the element
-        const body = Bodies.rectangle(x, y, rect.width, rect.height, {
-            restitution: 0.8, // Makes it bouncy
-            render: {
-                sprite: {
-                    texture: '', // Optional: Add a texture if you want to keep the element's appearance
-                    xScale: 1,
-                    yScale: 1
+        // Use html2canvas to capture the element's appearance
+        html2canvas(element).then(canvas => {
+            const texture = canvas.toDataURL(); // Convert the canvas to a data URL (image)
+
+            // Create a physics body for the element
+            const body = Bodies.rectangle(x, y, rect.width, rect.height, {
+                restitution: 0.8, // Makes it bouncy
+                render: {
+                    sprite: {
+                        texture: texture, // Use the captured image as the texture
+                        xScale: rect.width / canvas.width, // Scale the texture to match the element's width
+                        yScale: rect.height / canvas.height // Scale the texture to match the element's height
+                    }
                 }
-            }
+            });
+
+            // Add random velocity and angular velocity
+            const randomX = (Math.random() - 0.5) * 10; // Random horizontal velocity
+            const randomY = -Math.random() * 10; // Random upward velocity
+            const randomAngular = (Math.random() - 0.5) * 0.1; // Random spin
+            Matter.Body.setVelocity(body, { x: randomX, y: randomY });
+            Matter.Body.setAngularVelocity(body, randomAngular);
+
+            // Add the body to the world
+            World.add(world, body);
+
+            // Remove the element from the DOM
+            element.style.display = 'none';
         });
-
-        // Add random velocity and angular velocity
-        const randomX = (Math.random() - 0.5) * 10; // Random horizontal velocity
-        const randomY = -Math.random() * 10; // Random upward velocity
-        const randomAngular = (Math.random() - 0.5) * 0.1; // Random spin
-        Matter.Body.setVelocity(body, { x: randomX, y: randomY });
-        Matter.Body.setAngularVelocity(body, randomAngular);
-
-        // Add the body to the world
-        World.add(world, body);
-
-        // Remove the element from the DOM
-        element.style.display = 'none';
     });
 });
