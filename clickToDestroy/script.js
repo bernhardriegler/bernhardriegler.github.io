@@ -78,6 +78,8 @@ document.getElementById('boom').addEventListener('click', () => {
 
         makeElementBouncy(span);
     });
+
+    addAprilFoolsAnimation();
 });
 
 function makeElementBouncy(element) {
@@ -113,4 +115,38 @@ function makeElementBouncy(element) {
         // Remove the character from the DOM
         element.style.display = 'none';
     });
+}
+
+/**
+ * Adds the "April Fools!" animation after the boom button is clicked.
+ */
+function addAprilFoolsAnimation() {
+    setTimeout(() => {
+        // Create the text element
+        const aprilFoolsText = document.createElement('div');
+        aprilFoolsText.textContent = 'April Fools!';
+        aprilFoolsText.style.position = 'absolute';
+        aprilFoolsText.style.top = '50%';
+        aprilFoolsText.style.left = '50%';
+        aprilFoolsText.style.transform = 'translate(-50%, -50%)';
+        aprilFoolsText.style.fontSize = '1px'; // Start with a very small font size
+        aprilFoolsText.style.fontWeight = 'bold';
+        aprilFoolsText.style.color = '#FF6347'; // Red color for visibility
+        aprilFoolsText.style.textAlign = 'center';
+        aprilFoolsText.style.zIndex = '1000'; // Ensure it appears above everything else
+        document.body.appendChild(aprilFoolsText);
+
+        // Animate the text to grow
+        let fontSize = 1; // Initial font size in pixels
+        const maxWidth = window.innerWidth * 0.5; // 50% of the screen width
+        const growInterval = setInterval(() => {
+            fontSize += 2; // Increment the font size
+            aprilFoolsText.style.fontSize = `${fontSize}px`;
+
+            // Stop the animation when the text reaches the desired width
+            if (aprilFoolsText.offsetWidth >= maxWidth) {
+                clearInterval(growInterval);
+            }
+        }, 30); // Update every 30ms for smooth animation
+    }, 3000); // Start the animation 3 seconds after the boom button is clicked
 }
