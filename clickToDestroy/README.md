@@ -2,6 +2,9 @@
 
 This project is a fun interactive webpage where elements can be clicked to make them fall, bounce, and interact with physics. Additionally, clicking the "Boom" button triggers an explosion effect, making the `<h1>` text crumble into individual characters and bounce around. A playful "April Fools!" animation appears shortly after.
 
+## Try it out
+https://bernhardriegler.github.io/clickToDestroy/
+
 ## Features
 
 - **Interactive Physics**: Clickable elements (links, buttons) fall and bounce with realistic physics.
@@ -15,12 +18,6 @@ This project is a fun interactive webpage where elements can be clicked to make 
 - **JavaScript**: For interactivity and animations.
 - **Matter.js**: A 2D physics engine for realistic physics simulations.
 - **html2canvas**: To capture DOM elements as textures for physics bodies.
-
-## How to Use
-
-1. Open the webpage in a browser.
-2. Click on any link or button to make it fall and bounce.
-3. Click the "Boom" button to trigger the explosion effect and the "April Fools!" animation.
 
 ## Installation
 
