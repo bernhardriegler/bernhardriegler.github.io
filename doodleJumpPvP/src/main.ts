@@ -179,7 +179,7 @@ function restartGame(e: KeyboardEvent) {
 
 // Load player image
 const playerImage = new Image();
-playerImage.src = './player.png'; // Add a player.png image to the public folder
+playerImage.src = '/player.png'; // Add a player.png image to the public folder
 
 // Check for collision between players with reduced collision box
 function checkPlayerCollision() {
