@@ -9,7 +9,7 @@ lerna-debug.log*
 
 node_modules
 # to actually try the game on github pages
-# dist
+!dist
 dist-ssr
 *.local
 
