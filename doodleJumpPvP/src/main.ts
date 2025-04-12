@@ -164,18 +164,43 @@ function showGameOverScreen() {
 function restartGame(e: KeyboardEvent) {
   if (e.key === 'Enter') {
     window.removeEventListener('keydown', restartGame);
-    playerY = 500;
-    playerX = 200;
-    velocityY = -12;
-    platforms = [{ x: 150, y: 550 }, { x: 250, y: 450 }, { x: 100, y: 350 }];
-    score = 0;
-    gameOver = false;
-    scoredPlatforms.clear(); // Clear scored platforms
-    powerUps = []; // Clear power-ups
-    jetpackActive = false; // Reset jetpack
-    gameLoop();
+    resetGame();
   }
 }
+
+// Reset the game state
+function resetGame() {
+  playerY = 500;
+  playerX = 200;
+  velocityY = -12;
+  platforms = [{ x: 150, y: 550 }, { x: 250, y: 450 }, { x: 100, y: 350 }];
+  score = 0;
+  gameOver = false;
+  scoredPlatforms.clear(); // Clear scored platforms
+  powerUps = []; // Clear power-ups
+  jetpackActive = false; // Reset jetpack
+  jetpackDuration = 0; // Reset jetpack duration
+  player2Y = 500;
+  player2X = 100;
+  player2VelocityY = -12;
+  gameLoop();
+}
+
+// Add a reload page button
+function addReloadButton() {
+  const reloadButton = document.createElement('button');
+  reloadButton.textContent = 'Reload Page';
+  reloadButton.style.position = 'absolute';
+  reloadButton.style.top = '10px';
+  reloadButton.style.right = '10px';
+  reloadButton.addEventListener('click', () => {
+    window.location.reload();
+  });
+  document.body.appendChild(reloadButton);
+}
+
+// Call addReloadButton to display the button
+addReloadButton();
 
 // Load player image
 const playerImage = new Image();
