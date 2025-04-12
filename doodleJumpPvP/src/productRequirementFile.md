@@ -26,25 +26,22 @@ Dieses Dokument beschreibt die aktuellen Funktionen und Anforderungen des von Do
 - **Hintergrund**: Das Spiel verfügt über einen Farbverlauf im Hintergrund des Körpers und einen weißen Hintergrund für den Spielbereich.
 
 ### 6. Upgrades
-- **Beschreibung**: Der Spieler kann verbesserungen finden, die ihm beim Fortschritt helfen.
+- **Beschreibung**: Der Spieler kann Verbesserungen finden, die ihm beim Fortschritt helfen.
 - **Anforderungen**: 
   - Alle paar Plattformen (immer unterschiedlich viele - 5 bis 10) soll es Powerups geben.
   - Diese sollen als leuchtende Kugel dargestellt werden. 
-  - Berührt der Spieler ein Powerup kann er sich aus einem Menü eine von drei Verbesserungen aussuchen
+  - Berührt der Spieler ein Powerup, kann er sich aus einem Menü eine von drei Verbesserungen aussuchen:
     - Mögliche Verbesserungen sind:
       - Düsenjetpack - der Spieler springt einmal 5x so hoch
 
 ### 7. Mehrspieler
-- **Beschreibung**: Zwei Spieler könne gleichzeitig spielen
+- **Beschreibung**: Zwei Spieler können gleichzeitig spielen.
 - **Anforderungen**:
-  - Spieler zwei steuert mit A für links und D für rechts
-  - Spieler spieler können sich gegenseitig blockieren - collision detection
-
-- **Implementierungsnotizen**: [Spezifische Hinweise oder Überlegungen zur Implementierung]
+  - Spieler zwei steuert mit A für links und D für rechts.
+  - Spieler können sich gegenseitig blockieren - collision detection.
 
 ## Zukünftige Funktionen
 Dieser Abschnitt wird aktualisiert, sobald neue Funktionen geplant und implementiert werden.
-
 
 ### Vorlage für neue Funktionen
 - **Beschreibung**: [Kurze Beschreibung des Features]
