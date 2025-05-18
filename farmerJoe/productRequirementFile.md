@@ -36,6 +36,27 @@ This document outlines the current features and requirements for the game "Farme
   - Animated, non-blocking notifications for rewards.
 - Extensible codebase and clear documentation for future improvements.
 
+## Mine & Crystals
+- When players collect 200 points and visit the rewards area, the mine tile (on the left, below rewards) is unlocked.
+- The mine contains crystal spawn spots (max 3 at a time).
+- Players can pick up crystals in the mine (like berries, with progress bar).
+- Crystals are a shared resource; counter is only visible if at least one crystal is held.
+- Crystals can be delivered at the table for 30 points each.
+
+## UI & Controls
+- Crate counter is shown above the berries counter, with icon and count.
+- Crystal counter is shown above crates if at least one crystal is held.
+- Crate and crystal pickup progress bars are shown above the player.
+- Touch controls: two cross-shaped button groups outside the game area:
+  - Left: WASD (Ann)
+  - Right: Arrow keys (Joe)
+  - Buttons work with both touch and mouse (click) events.
+
+## Other
+- NPCs collect delivered berries (first in line only).
+- Reward messages and fireworks for unlocking features.
+- All features work on both desktop and touch devices.
+
 ## Current Implementation State
 - Fully playable in browser (HTML5 canvas).
 - All features above are implemented and tested.

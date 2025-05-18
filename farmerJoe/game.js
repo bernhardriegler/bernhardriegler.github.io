@@ -27,12 +27,12 @@ let npcs = [
     { x: NPC_START_X[2], y: NPC_Y, carrying: false, berryNeed: getRandomBerryNeed(), berriesCarried: 0 }
 ];
 
-// Shared state for points and berries
-let shared = { berries: 0, points: 0 };
+// Shared state for points, berries, and crates
+let shared = { berries: 0, points: 0, crates: 0 };
 
 // Game state
-let player = { x: WIDTH / 2, y: HEIGHT / 2, vx: 0, vy: 0, harvesting: false, harvestBerry: null, harvestStart: 0, hasCrate: false };
-let player2 = { x: WIDTH / 2 + 60, y: HEIGHT / 2, vx: 0, vy: 0, harvesting: false, harvestBerry: null, harvestStart: 0, hasCrate: false };
+let player = { x: WIDTH / 2, y: HEIGHT / 2, vx: 0, vy: 0, harvesting: false, harvestBerry: null, harvestStart: 0, cratePickup: null, cratePickupStart: 0 };
+let player2 = { x: WIDTH / 2 + 60, y: HEIGHT / 2, vx: 0, vy: 0, harvesting: false, harvestBerry: null, harvestStart: 0, cratePickup: null, cratePickupStart: 0 };
 let berries = [];
 // Spawn the first berry immediately
 (function spawnInitialBerry() {
@@ -50,6 +50,13 @@ let machines = [
     { unlocked: false, x: WIDTH / 2 - 40, y: 30, w: 80, h: 60, active: false, timer: 0, progress: 0, hasCrate: false, owner: null },
     { unlocked: false, x: WIDTH / 2 + 40, y: 30, w: 80, h: 60, active: false, timer: 0, progress: 0, hasCrate: false, owner: null }
 ];
+
+// Mine state
+let mineUnlocked = false;
+// Move mine below reward area
+const MINE = { x: 0, y: REWARD_AREA.y + REWARD_AREA.h, w: WIDTH * 0.25, h: HEIGHT * 0.25 };
+let crystals = [];
+let sharedCrystals = 0;
 
 // Reward message state
 let rewardMessage = '';
@@ -251,29 +258,77 @@ function drawAllMachines() {
     machines.forEach(drawMachine);
 }
 
+function drawMine() {
+    if (!mineUnlocked) return;
+    ctx.fillStyle = '#222';
+    ctx.fillRect(MINE.x, MINE.y, MINE.w, MINE.h);
+    ctx.strokeStyle = '#888';
+    ctx.strokeRect(MINE.x, MINE.y, MINE.w, MINE.h);
+    ctx.fillStyle = '#b0e0e6';
+    ctx.font = '16px Arial';
+    ctx.fillText('Mine', MINE.x + 10, MINE.y + 24);
+    // Draw crystal spots
+    crystals.forEach(crystal => {
+        if (!crystal.collected) {
+            ctx.beginPath();
+            ctx.arc(crystal.x, crystal.y, 14, 0, 2 * Math.PI);
+            ctx.fillStyle = '#00e6e6';
+            ctx.fill();
+            ctx.strokeStyle = '#fff';
+            ctx.stroke();
+        }
+    });
+}
+
 function drawUI() {
+    // Draw shared crate counter above berries
+    ctx.fillStyle = '#795548';
+    ctx.fillRect(20, HEIGHT - 80, 24, 24);
+    ctx.strokeStyle = '#333';
+    ctx.strokeRect(20, HEIGHT - 80, 24, 24);
+    ctx.fillStyle = '#fff';
+    ctx.font = '16px Arial';
+    ctx.fillText('Crates: ' + shared.crates, 52, HEIGHT - 62);
+    // Draw crystal counter if at least one crystal
+    if (sharedCrystals > 0) {
+        ctx.fillStyle = '#00e6e6';
+        ctx.beginPath();
+        ctx.arc(20 + 12, HEIGHT - 110 + 12, 12, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.strokeStyle = '#333';
+        ctx.stroke();
+        ctx.fillStyle = '#fff';
+        ctx.font = '16px Arial';
+        ctx.fillText('Crystals: ' + sharedCrystals, 52, HEIGHT - 98);
+    }
+    // Draw berries and points below
     ctx.fillStyle = '#fff';
     ctx.font = '18px Arial';
     ctx.fillText(`Berries: ${shared.berries}`, 20, HEIGHT - 40);
     ctx.fillText(`Points: ${shared.points}`, 20, HEIGHT - 16);
-    if (player.hasCrate) {
-        ctx.fillStyle = '#795548';
-        ctx.fillRect(150, HEIGHT - 56, 24, 24);
-        ctx.strokeStyle = '#333';
-        ctx.strokeRect(150, HEIGHT - 56, 24, 24);
+    // Show crate pickup progress bar
+    if (player.cratePickup) {
+        let elapsed = (Date.now() - player.cratePickupStart) / 1000;
+        elapsed = Math.min(elapsed, 1);
         ctx.fillStyle = '#fff';
-        ctx.font = '14px Arial';
-        ctx.fillText('Crate', 150, HEIGHT - 36);
-    }
-    if (player2.hasCrate) {
+        ctx.fillRect(player.x, player.y - 24, PLAYER_SIZE, 6);
         ctx.fillStyle = '#795548';
-        ctx.fillRect(330, HEIGHT - 56, 24, 24);
-        ctx.strokeStyle = '#333';
-        ctx.strokeRect(330, HEIGHT - 56, 24, 24);
-        ctx.fillStyle = '#fff';
-        ctx.font = '14px Arial';
-        ctx.fillText('Crate', 330, HEIGHT - 36);
+        ctx.fillRect(player.x, player.y - 24, PLAYER_SIZE * elapsed, 6);
+        ctx.strokeStyle = '#222';
+        ctx.strokeRect(player.x, player.y - 24, PLAYER_SIZE, 6);
     }
+    if (player2.cratePickup) {
+        let elapsed = (Date.now() - player2.cratePickupStart) / 1000;
+        elapsed = Math.min(elapsed, 1);
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(player2.x, player2.y - 24, PLAYER_SIZE, 6);
+        ctx.fillStyle = '#795548';
+        ctx.fillRect(player2.x, player2.y - 24, PLAYER_SIZE * elapsed, 6);
+        ctx.strokeStyle = '#222';
+        ctx.strokeRect(player2.x, player2.y - 24, PLAYER_SIZE, 6);
+    }
+    // Show crystal harvest progress bars
+    drawCrystalProgress();
 }
 
 function growBerries() {
@@ -284,6 +339,16 @@ function growBerries() {
             berries.push({ x: bx, y: by, harvested: false });
         }
         lastBerryGrowth = Date.now();
+    }
+}
+
+function spawnCrystals() {
+    if (!mineUnlocked) return;
+    // Max 3 crystals at a time
+    if (crystals.filter(c => !c.collected).length < 3) {
+        let cx = MINE.x + 30 + Math.random() * (MINE.w - 60);
+        let cy = MINE.y + 30 + Math.random() * (MINE.h - 60);
+        crystals.push({ x: cx, y: cy, collected: false });
     }
 }
 
@@ -351,18 +416,77 @@ function checkBerryHarvest() {
     }
 }
 
-function exchangePoints() {
-    // Either player can unlock a machine for 100 points, up to 3
-    if ((player.x + PLAYER_SIZE > REWARD_AREA.x && player.x < REWARD_AREA.x + REWARD_AREA.w && player.y + PLAYER_SIZE > REWARD_AREA.y && player.y < REWARD_AREA.y + REWARD_AREA.h) ||
-        (player2.x + PLAYER_SIZE > REWARD_AREA.x && player2.x < REWARD_AREA.x + REWARD_AREA.w && player2.y + PLAYER_SIZE > REWARD_AREA.y && player2.y < REWARD_AREA.y + REWARD_AREA.h)) {
-        if (shared.points >= 100) {
-            let machineToUnlock = machines.find(m => !m.unlocked);
-            if (machineToUnlock) {
-                shared.points -= 100;
-                machineToUnlock.unlocked = true;
-                showRewardMessage('Machine unlocked!');
+function checkCrystalHarvest() {
+    // Player 1
+    if (player.harvestingCrystal) {
+        if (Date.now() - player.crystalHarvestStart >= HARVEST_TIME) {
+            let crystal = player.harvestCrystal;
+            if (crystal && !crystal.collected) {
+                crystal.collected = true;
+                sharedCrystals++;
             }
+            player.harvestingCrystal = false;
+            player.harvestCrystal = null;
         }
+        return;
+    }
+    for (let crystal of crystals) {
+        if (crystal.collected) continue;
+        let dx = player.x + PLAYER_SIZE / 2 - crystal.x;
+        let dy = player.y + PLAYER_SIZE / 2 - crystal.y;
+        if (player.x > MINE.x && player.x < MINE.x + MINE.w && player.y > MINE.y && player.y < MINE.y + MINE.h && Math.abs(dx) < (PLAYER_SIZE / 2 + 14) && Math.abs(dy) < (PLAYER_SIZE / 2 + 14)) {
+            player.harvestingCrystal = true;
+            player.harvestCrystal = crystal;
+            player.crystalHarvestStart = Date.now();
+            break;
+        }
+    }
+    // Player 2
+    if (player2.harvestingCrystal) {
+        if (Date.now() - player2.crystalHarvestStart >= HARVEST_TIME) {
+            let crystal = player2.harvestCrystal;
+            if (crystal && !crystal.collected) {
+                crystal.collected = true;
+                sharedCrystals++;
+            }
+            player2.harvestingCrystal = false;
+            player2.harvestCrystal = null;
+        }
+        return;
+    }
+    for (let crystal of crystals) {
+        if (crystal.collected) continue;
+        let dx = player2.x + PLAYER_SIZE / 2 - crystal.x;
+        let dy = player2.y + PLAYER_SIZE / 2 - crystal.y;
+        if (player2.x > MINE.x && player2.x < MINE.x + MINE.w && player2.y > MINE.y && player2.y < MINE.y + MINE.h && Math.abs(dx) < (PLAYER_SIZE / 2 + 14) && Math.abs(dy) < (PLAYER_SIZE / 2 + 14)) {
+            player2.harvestingCrystal = true;
+            player2.harvestCrystal = crystal;
+            player2.crystalHarvestStart = Date.now();
+            break;
+        }
+    }
+}
+
+function drawCrystalProgress() {
+    if (player.harvestingCrystal && player.harvestCrystal && !player.harvestCrystal.collected) {
+        let elapsed = (Date.now() - player.crystalHarvestStart) / HARVEST_TIME;
+        elapsed = Math.min(elapsed, 1);
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(player.x, player.y - 24, PLAYER_SIZE, 6);
+        ctx.fillStyle = '#00e6e6';
+        ctx.fillRect(player.x, player.y - 24, PLAYER_SIZE * elapsed, 6);
+        ctx.strokeStyle = '#222';
+        ctx.strokeRect(player.x, player.y - 24, PLAYER_SIZE, 6);
+    }
+    if (player2.harvestingCrystal && player2.harvestCrystal && !player2.harvestCrystal.collected) {
+        let elapsed = (Date.now() - player2.crystalHarvestStart) / HARVEST_TIME;
+        elapsed = Math.min(elapsed, 1);
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(player2.x, player2.y - 24, PLAYER_SIZE, 6);
+        ctx.fillStyle = '#00e6e6';
+        ctx.fillRect(player2.x, player2.y - 24, PLAYER_SIZE * elapsed, 6);
+        ctx.strokeStyle = '#222';
+        ctx.strokeRect(player2.x, player2.y - 24, PLAYER_SIZE, 6);
     }
 }
 
@@ -377,13 +501,32 @@ function deliverBerries() {
             shared.points += shared.berries * 10;
             shared.berries = 0;
         }
-        if (player.hasCrate) {
-            deliveredBerries += 3;
-            player.hasCrate = false;
+        if (shared.crates > 0) {
+            deliveredBerries += 3 * shared.crates;
+            shared.crates = 0;
         }
-        if (player2.hasCrate) {
-            deliveredBerries += 3;
-            player2.hasCrate = false;
+        if (sharedCrystals > 0) {
+            shared.points += sharedCrystals * 30;
+            sharedCrystals = 0;
+        }
+    }
+}
+
+function exchangePoints() {
+    // Either player can unlock a machine for 100 points, up to 3
+    if ((player.x + PLAYER_SIZE > REWARD_AREA.x && player.x < REWARD_AREA.x + REWARD_AREA.w && player.y + PLAYER_SIZE > REWARD_AREA.y && player.y < REWARD_AREA.y + REWARD_AREA.h) ||
+        (player2.x + PLAYER_SIZE > REWARD_AREA.x && player2.x < REWARD_AREA.x + REWARD_AREA.w && player2.y + PLAYER_SIZE > REWARD_AREA.y && player2.y < REWARD_AREA.y + REWARD_AREA.h)) {
+        if (!mineUnlocked && shared.points >= 200) {
+            shared.points -= 200;
+            mineUnlocked = true;
+            showRewardMessage('Mine unlocked!');
+        } else if (shared.points >= 100) {
+            let machineToUnlock = machines.find(m => !m.unlocked);
+            if (machineToUnlock) {
+                shared.points -= 100;
+                machineToUnlock.unlocked = true;
+                showRewardMessage('Machine unlocked!');
+            }
         }
     }
 }
@@ -396,14 +539,14 @@ function updateMachines() {
         // Player 2
         let inMachine2 = player2.x + PLAYER_SIZE > machine.x && player2.x < machine.x + machine.w && player2.y + PLAYER_SIZE > machine.y && player2.y < machine.y + machine.h;
         // Start crate production
-        if (inMachine1 && shared.berries >= 2 && !machine.active && !machine.hasCrate && !player.hasCrate) {
+        if (inMachine1 && shared.berries >= 2 && !machine.active && !machine.hasCrate) {
             shared.berries -= 2;
             machine.active = true;
             machine.timer = Date.now();
             machine.progress = 0;
             machine.owner = 1;
         }
-        if (inMachine2 && shared.berries >= 2 && !machine.active && !machine.hasCrate && !player2.hasCrate) {
+        if (inMachine2 && shared.berries >= 2 && !machine.active && !machine.hasCrate) {
             shared.berries -= 2;
             machine.active = true;
             machine.timer = Date.now();
@@ -420,14 +563,30 @@ function updateMachines() {
                 machine.progress = 1;
             }
         }
-        // Player picks up crate
-        if (machine.hasCrate && inMachine1 && !player.hasCrate && machine.owner === 1) {
-            machine.hasCrate = false;
-            player.hasCrate = true;
+        // Player picks up crate (shared, unlimited, with 1s progress bar)
+        if (machine.hasCrate && inMachine1) {
+            if (!player.cratePickup) {
+                player.cratePickup = machine;
+                player.cratePickupStart = Date.now();
+            } else if (player.cratePickup === machine && Date.now() - player.cratePickupStart >= 1000) {
+                machine.hasCrate = false;
+                shared.crates++;
+                player.cratePickup = null;
+            }
+        } else if (player.cratePickup === machine) {
+            player.cratePickup = null;
         }
-        if (machine.hasCrate && inMachine2 && !player2.hasCrate && machine.owner === 2) {
-            machine.hasCrate = false;
-            player2.hasCrate = true;
+        if (machine.hasCrate && inMachine2) {
+            if (!player2.cratePickup) {
+                player2.cratePickup = machine;
+                player2.cratePickupStart = Date.now();
+            } else if (player2.cratePickup === machine && Date.now() - player2.cratePickupStart >= 1000) {
+                machine.hasCrate = false;
+                shared.crates++;
+                player2.cratePickup = null;
+            }
+        } else if (player2.cratePickup === machine) {
+            player2.cratePickup = null;
         }
     });
 }
@@ -488,12 +647,15 @@ function gameLoop() {
     drawPlayer2();
     drawNPCs();
     drawAllMachines();
+    drawMine();
     drawUI();
     drawRewardMessage();
     growBerries();
+    spawnCrystals();
     updatePlayer();
     updatePlayer2();
     checkBerryHarvest();
+    checkCrystalHarvest();
     deliverBerries();
     exchangePoints();
     updateMachines();
@@ -504,5 +666,92 @@ function gameLoop() {
 
 document.addEventListener('keydown', e => { keys[e.key] = true; });
 document.addEventListener('keyup', e => { keys[e.key] = false; });
+
+// Add touch controls for both players
+function createTouchControls() {
+    // Helper to create a button
+    function makeBtn(key, label) {
+        const b = document.createElement('button');
+        b.textContent = label;
+        b.style.width = '48px';
+        b.style.height = '48px';
+        b.style.fontSize = '2em';
+        b.style.opacity = '0.7';
+        b.style.borderRadius = '12px';
+        b.style.border = '2px solid #333';
+        b.style.background = '#eee';
+        b.style.touchAction = 'none';
+        b.style.margin = '2px';
+        b.addEventListener('touchstart', e => { e.preventDefault(); keys[key] = true; });
+        b.addEventListener('touchend', e => { e.preventDefault(); keys[key] = false; });
+        b.addEventListener('mousedown', e => { e.preventDefault(); keys[key] = true; });
+        b.addEventListener('mouseup', e => { e.preventDefault(); keys[key] = false; });
+        b.addEventListener('mouseleave', e => { keys[key] = false; });
+        return b;
+    }
+
+    // Left cross for WASD (player2)
+    const leftCross = document.createElement('div');
+    leftCross.style.position = 'absolute';
+    leftCross.style.left = (canvas.offsetLeft - 120) + 'px'; // Move further left
+    leftCross.style.top = (canvas.offsetTop + canvas.height / 2 - 80) + 'px';
+    leftCross.style.zIndex = 10;
+    leftCross.style.display = 'flex';
+    leftCross.style.flexDirection = 'column';
+    leftCross.style.alignItems = 'center';
+    // Up
+    const rowUp = document.createElement('div');
+    rowUp.style.display = 'flex';
+    rowUp.style.justifyContent = 'center';
+    rowUp.appendChild(makeBtn('w', '▲'));
+    // Left/Right
+    const rowMid = document.createElement('div');
+    rowMid.style.display = 'flex';
+    rowMid.appendChild(makeBtn('a', '◀'));
+    rowMid.appendChild(document.createElement('span')).style.width = '8px';
+    rowMid.appendChild(makeBtn('d', '▶'));
+    // Down
+    const rowDown = document.createElement('div');
+    rowDown.style.display = 'flex';
+    rowDown.style.justifyContent = 'center';
+    rowDown.appendChild(makeBtn('s', '▼'));
+    leftCross.appendChild(rowUp);
+    leftCross.appendChild(rowMid);
+    leftCross.appendChild(rowDown);
+    document.body.appendChild(leftCross);
+
+    // Right cross for Arrow keys (player1)
+    const rightCross = document.createElement('div');
+    rightCross.style.position = 'absolute';
+    rightCross.style.left = (canvas.offsetLeft + canvas.width + 16) + 'px'; // 16px outside the game area
+    rightCross.style.top = (canvas.offsetTop + canvas.height / 2 - 80) + 'px';
+    rightCross.style.zIndex = 10;
+    rightCross.style.display = 'flex';
+    rightCross.style.flexDirection = 'column';
+    rightCross.style.alignItems = 'center';
+    // Up
+    const rowUpR = document.createElement('div');
+    rowUpR.style.display = 'flex';
+    rowUpR.style.justifyContent = 'center';
+    rowUpR.appendChild(makeBtn('ArrowUp', '▲'));
+    // Left/Right
+    const rowMidR = document.createElement('div');
+    rowMidR.style.display = 'flex';
+    rowMidR.appendChild(makeBtn('ArrowLeft', '◀'));
+    rowMidR.appendChild(document.createElement('span')).style.width = '8px';
+    rowMidR.appendChild(makeBtn('ArrowRight', '▶'));
+    // Down
+    const rowDownR = document.createElement('div');
+    rowDownR.style.display = 'flex';
+    rowDownR.style.justifyContent = 'center';
+    rowDownR.appendChild(makeBtn('ArrowDown', '▼'));
+    rightCross.appendChild(rowUpR);
+    rightCross.appendChild(rowMidR);
+    rightCross.appendChild(rowDownR);
+    document.body.appendChild(rightCross);
+}
+
+// Call this after DOM is ready
+window.addEventListener('DOMContentLoaded', createTouchControls);
 
 gameLoop();
