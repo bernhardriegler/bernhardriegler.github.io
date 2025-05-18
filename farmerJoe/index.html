@@ -6,10 +6,98 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Farmer Joe Game</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: #228B22;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        #gameContainer {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #gameCanvas {
+            display: block;
+            max-width: 100vw;
+            max-height: 100vh;
+            width: 100vw;
+            height: 100vh;
+            object-fit: contain;
+            background: #222;
+        }
+
+        .touch-controls {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            pointer-events: auto;
+        }
+
+        .touch-controls.left {
+            left: 0;
+        }
+
+        .touch-controls.right {
+            right: 0;
+        }
+    </style>
 </head>
 
 <body>
-    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <div id="gameContainer">
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+        <!-- Touch controls will be injected here -->
+    </div>
+    <script>
+        // Responsive scaling for the canvas
+        function resizeGameCanvas() {
+            const canvas = document.getElementById('gameCanvas');
+            const container = document.getElementById('gameContainer');
+            const aspect = 800 / 600;
+            let w = window.innerWidth;
+            let h = window.innerHeight;
+            if (w / h > aspect) {
+                w = h * aspect;
+            } else {
+                h = w / aspect;
+            }
+            container.style.width = w + 'px';
+            container.style.height = h + 'px';
+            canvas.style.width = w + 'px';
+            canvas.style.height = h + 'px';
+            // Move touch controls relative to container
+            const left = document.querySelector('.touch-controls.left');
+            const right = document.querySelector('.touch-controls.right');
+            if (left) left.style.left = '-80px';
+            if (right) right.style.right = '-80px';
+            if (left) left.style.top = right ? right.style.top : '50%';
+            if (right) right.style.top = left ? left.style.top : '50%';
+        }
+        window.addEventListener('resize', resizeGameCanvas);
+        window.addEventListener('orientationchange', resizeGameCanvas);
+        window.addEventListener('DOMContentLoaded', resizeGameCanvas);
+    </script>
     <script src="game.js"></script>
 </body>
 

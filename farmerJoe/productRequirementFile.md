@@ -36,6 +36,17 @@ This document outlines the current features and requirements for the game "Farme
   - Animated, non-blocking notifications for rewards.
 - Extensible codebase and clear documentation for future improvements.
 
+## Conveyor Belt (Harvesting Machine)
+- Unlockable after at least one machine is unlocked, for 300 points at the rewards area.
+- Once unlocked, the conveyor belt automatically harvests ripe berries from the field and delivers them to the first available unlocked machine.
+- Berries are animated as they move from the field to the machine along the conveyor.
+- The conveyor is visually represented as a dark brown rectangle with a red dashed border, connecting the berry field to the machines.
+- Players can still harvest berries manually and interact with machines as usual.
+- Players pick up crates from machines as before; the conveyor only automates berry harvesting and delivery to machines.
+- The unlock option for the conveyor appears in the reward area UI when eligible.
+- The conveyor operates continuously as long as there are ripe berries and available machines.
+- All conveyor actions are integrated into the main game loop and UI.
+
 ## Mine & Crystals
 - When players collect 200 points and visit the rewards area, the mine tile (on the left, below rewards) is unlocked.
 - The mine contains crystal spawn spots (max 3 at a time).
@@ -51,6 +62,8 @@ This document outlines the current features and requirements for the game "Farme
   - Left: WASD (Ann)
   - Right: Arrow keys (Joe)
   - Buttons work with both touch and mouse (click) events.
+- Conveyor belt is visually shown on the map when unlocked, with animated berries moving along it.
+- Conveyor unlock option appears in the rewards area UI when eligible.
 
 ## Other
 - NPCs collect delivered berries (first in line only).

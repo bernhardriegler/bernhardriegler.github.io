@@ -1,12 +1,20 @@
+html,
+body {
+    background: #2ecc40 !important;
+}
+
+#gameContainer {
+    background: transparent !important;
+}
+
 body {
     margin: 0;
-    background: #222;
 }
 
 #gameCanvas {
     display: block;
     margin: 40px auto;
-    background: #4caf50;
+    background: #2ecc40;
     /* green ground */
     border: 2px solid #333;
 }

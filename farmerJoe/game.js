@@ -58,6 +58,20 @@ const MINE = { x: 0, y: REWARD_AREA.y + REWARD_AREA.h, w: WIDTH * 0.25, h: HEIGH
 let crystals = [];
 let sharedCrystals = 0;
 
+// Conveyor belt state
+let conveyorUnlocked = false;
+let conveyorActive = false;
+let conveyorBerries = [];
+const CONVEYOR = {
+    x: BERRY_FIELD.x - 80,
+    y: BERRY_FIELD.y + BERRY_FIELD.h / 2 - 20,
+    w: WIDTH / 2 - (BERRY_FIELD.x - 80),
+    h: 40
+};
+const CONVEYOR_COLOR = '#5a3a1b';
+const CONVEYOR_BORDER = '4px dashed #e53935';
+const CONVEYOR_SPEED = 2; // px per frame
+
 // Reward message state
 let rewardMessage = '';
 let rewardMessageAlpha = 0;
@@ -214,13 +228,7 @@ function drawBerries() {
         ctx.fillStyle = '#d32f2f';
         ctx.fill();
         ctx.strokeStyle = '#fbc02d';
-        for (let i = 0; i < 6; i++) {
-            let angle = (i / 6) * 2 * Math.PI;
-            ctx.beginPath();
-            ctx.arc(berry.x + Math.cos(angle) * 8, berry.y + Math.sin(angle) * 8, 3, 0, 2 * Math.PI);
-            ctx.fillStyle = '#fbc02d';
-            ctx.fill();
-        }
+        ctx.stroke();
     });
 }
 
@@ -280,6 +288,33 @@ function drawMine() {
     });
 }
 
+function drawConveyor() {
+    if (!conveyorUnlocked) return;
+    // Draw conveyor belt
+    ctx.save();
+    ctx.beginPath();
+    ctx.setLineDash([10, 8]);
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = '#e53935';
+    ctx.fillStyle = CONVEYOR_COLOR;
+    ctx.rect(CONVEYOR.x, CONVEYOR.y, CONVEYOR.w, CONVEYOR.h);
+    ctx.fill();
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.restore();
+    // Draw berries moving on conveyor
+    conveyorBerries.forEach(b => {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(b.x, b.y, BERRY_SIZE / 2, 0, 2 * Math.PI);
+        ctx.fillStyle = '#d32f2f';
+        ctx.fill();
+        ctx.strokeStyle = '#fbc02d';
+        ctx.stroke();
+        ctx.restore();
+    });
+}
+
 function drawUI() {
     // Draw shared crate counter above berries
     ctx.fillStyle = '#795548';
@@ -329,6 +364,14 @@ function drawUI() {
     }
     // Show crystal harvest progress bars
     drawCrystalProgress();
+    // Draw conveyor unlock UI if eligible
+    if (!conveyorUnlocked && machines.some(m => m.unlocked)) {
+        ctx.save();
+        ctx.fillStyle = '#fff';
+        ctx.font = '16px Arial';
+        ctx.fillText('Unlock Conveyor: 300 pts', REWARD_AREA.x + 10, REWARD_AREA.y + 48);
+        ctx.restore();
+    }
 }
 
 function growBerries() {
@@ -514,19 +557,25 @@ function deliverBerries() {
 
 function exchangePoints() {
     // Either player can unlock a machine for 100 points, up to 3
-    if ((player.x + PLAYER_SIZE > REWARD_AREA.x && player.x < REWARD_AREA.x + REWARD_AREA.w && player.y + PLAYER_SIZE > REWARD_AREA.y && player.y < REWARD_AREA.y + REWARD_AREA.h) ||
-        (player2.x + PLAYER_SIZE > REWARD_AREA.x && player2.x < REWARD_AREA.x + REWARD_AREA.w && player2.y + PLAYER_SIZE > REWARD_AREA.y && player2.y < REWARD_AREA.y + REWARD_AREA.h)) {
+    const inRewardArea =
+        (player.x + PLAYER_SIZE > REWARD_AREA.x && player.x < REWARD_AREA.x + REWARD_AREA.w && player.y + PLAYER_SIZE > REWARD_AREA.y && player.y < REWARD_AREA.y + REWARD_AREA.h) ||
+        (player2.x + PLAYER_SIZE > REWARD_AREA.x && player2.x < REWARD_AREA.x + REWARD_AREA.w && player2.y + PLAYER_SIZE > REWARD_AREA.y && player2.y < REWARD_AREA.y + REWARD_AREA.h);
+    if (inRewardArea) {
         if (!mineUnlocked && shared.points >= 200) {
             shared.points -= 200;
             mineUnlocked = true;
             showRewardMessage('Mine unlocked!');
-        } else if (shared.points >= 100) {
+        } else if (shared.points >= 100 && machines.some(m => !m.unlocked)) {
             let machineToUnlock = machines.find(m => !m.unlocked);
             if (machineToUnlock) {
                 shared.points -= 100;
                 machineToUnlock.unlocked = true;
                 showRewardMessage('Machine unlocked!');
             }
+        } else if (!conveyorUnlocked && machines.some(m => m.unlocked) && shared.points >= 300) {
+            shared.points -= 300;
+            conveyorUnlocked = true;
+            showRewardMessage('Conveyor unlocked!');
         }
     }
 }
@@ -591,6 +640,42 @@ function updateMachines() {
     });
 }
 
+function updateConveyor() {
+    if (!conveyorUnlocked) return;
+    // If not active, try to pick a berry from the field
+    if (berries.length > 0 && conveyorBerries.length < 1) {
+        // Only pick if at least one machine is unlocked and not busy
+        let availableMachine = machines.find(m => m.unlocked && !m.active && !m.hasCrate);
+        if (availableMachine) {
+            // Remove berry from field
+            berries.shift(); // Remove berry from field
+            conveyorBerries.push({
+                x: CONVEYOR.x + 20,
+                y: CONVEYOR.y + CONVEYOR.h / 2,
+                targetMachine: availableMachine,
+                progress: 0
+            });
+        }
+    }
+    // Move berries along conveyor
+    conveyorBerries.forEach(b => {
+        if (b.x < b.targetMachine.x + b.targetMachine.w / 2) {
+            b.x += CONVEYOR_SPEED;
+        } else {
+            // Arrived at machine: start machine if possible
+            if (!b.targetMachine.active && !b.targetMachine.hasCrate && shared.berries >= 0) {
+                b.targetMachine.active = true;
+                b.targetMachine.timer = Date.now();
+                b.targetMachine.progress = 0;
+                b.targetMachine.owner = 'conveyor';
+            }
+            b.remove = true;
+        }
+    });
+    // Remove delivered berries
+    conveyorBerries = conveyorBerries.filter(b => !b.remove);
+}
+
 function updateNPCs() {
     // Only the first NPC in line that is not finished can collect berries
     let activeNpcIndex = npcs.findIndex(npc => npc.berriesCarried < npc.berryNeed && npc.leaving !== true);
@@ -642,6 +727,7 @@ function gameLoop() {
     drawBerryField();
     drawTable();
     drawRewardArea();
+    drawConveyor(); // draw conveyor before machines
     drawBerries();
     drawPlayer();
     drawPlayer2();
@@ -652,6 +738,7 @@ function gameLoop() {
     drawRewardMessage();
     growBerries();
     spawnCrystals();
+    updateConveyor(); // update conveyor logic
     updatePlayer();
     updatePlayer2();
     checkBerryHarvest();
@@ -692,6 +779,7 @@ function createTouchControls() {
 
     // Left cross for WASD (player2)
     const leftCross = document.createElement('div');
+    leftCross.className = 'touch-controls left';
     leftCross.style.position = 'absolute';
     leftCross.style.left = (canvas.offsetLeft - 120) + 'px'; // Move further left
     leftCross.style.top = (canvas.offsetTop + canvas.height / 2 - 80) + 'px';
@@ -718,10 +806,11 @@ function createTouchControls() {
     leftCross.appendChild(rowUp);
     leftCross.appendChild(rowMid);
     leftCross.appendChild(rowDown);
-    document.body.appendChild(leftCross);
+    document.getElementById('gameContainer').appendChild(leftCross);
 
     // Right cross for Arrow keys (player1)
     const rightCross = document.createElement('div');
+    rightCross.className = 'touch-controls right';
     rightCross.style.position = 'absolute';
     rightCross.style.left = (canvas.offsetLeft + canvas.width + 16) + 'px'; // 16px outside the game area
     rightCross.style.top = (canvas.offsetTop + canvas.height / 2 - 80) + 'px';
@@ -748,7 +837,7 @@ function createTouchControls() {
     rightCross.appendChild(rowUpR);
     rightCross.appendChild(rowMidR);
     rightCross.appendChild(rowDownR);
-    document.body.appendChild(rightCross);
+    document.getElementById('gameContainer').appendChild(rightCross);
 }
 
 // Call this after DOM is ready
